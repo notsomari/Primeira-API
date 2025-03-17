@@ -28,19 +28,19 @@ def doar():
     
     dados = request.get_json()
     
-    print(f"Seus Dados Foram Retornados {dados}")
+    print(f"Os dados foram devidamente retornados -> {dados}")
     
     titulo = dados.get("titulo")
     categoria = dados.get("categoria")
     autor = dados.get("autor")
-    image_url = dados.get("imagem_url")
+    image_url = dados.get("image_url")
 
     if not titulo or not categoria or not autor or not image_url:
         return jsonify({"erro":"Todos os campos são obrigatórios."}), 400
 
     with sqlite3.connect("database.db") as conn:
-        conn.execute(""""
-        INSERT INTO LIVROS (titulo,categoria,autor,imagem_url)
+        conn.execute(f"""
+        INSERT INTO LIVROS (titulo, categoria, autor, imagem_url)
         VALUES ("{titulo}", "{categoria}", "{autor}", "{image_url}")
 """)
 
