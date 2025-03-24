@@ -6,9 +6,8 @@ from flask import Flask,request, jsonify
 app = Flask(__name__) 
 
 def init_db():
-    # sqlite3 cria o arquivo database.db e se conecta com a variável conn (connection)
     with sqlite3.connect("database.db") as conn:
-        # Executamos um comando SQL para criar a tabela LIVROS, caso ela ainda não exista
+        
         conn.execute(
             """ 
                 CREATE TABLE IF NOT EXISTS LIVROS(
@@ -48,8 +47,28 @@ def doar():
     
     return jsonify({"mensagem":"Livro cadastrado com sucesso."}), 201
 
-# Se o arquivo app.py for o arquivo principal da nossa aplicação, rode a api no modo de depuração
+@app.route("/livros", methods=["GET"])
+
+def listagem_livros():
+    
+    with sqlite3.connect("database.db") as conn:
+        livros = conn.execute("SELECT * FROM LIVROS").fetchall()
+    
+    livros_formatados = []
+    
+    for item in livros:
+        dicionario_livros ={
+            "id":item[0],
+            "titulo":item[1],
+            "categoria":item[2],
+            "autor":item[3],
+            "image_url":item[4]
+        }
+        
+        livros_formatados.append(dicionario_livros)
+
+    return jsonify(livros_formatados),200
+
 if __name__ == "__main__":
-    # Inicia o servidor Flask no modo de depuração
-    # O modo debug faz com que as mudanças no código sejam aplicadas automaticamente, sem necessidade de 
+    
     app.run(debug=True)
