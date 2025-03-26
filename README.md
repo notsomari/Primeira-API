@@ -6,6 +6,7 @@ Essa é uma API simples feita com Flask e SQLite para fins de estudo na escola V
 
 - **Python**
 - **Flask**
+- **SQLite3**
 
 ## Como Rodar o Projeto? 📖
 
